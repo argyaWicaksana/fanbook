@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import Header from './components/Header'
-import CommentForm from './components/CommentForm'
+import { CommentSection } from './components/CommentForm'
 
 function App() {
 
   return (
     <div className='flex gap-5 flex-col'>
       <Header />
-      <CommentForm />
+      <CommentSection />
     </div>
   )
 }

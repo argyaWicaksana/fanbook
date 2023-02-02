@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from flask import Flask, render_template, request, jsonify
 from pymongo import MongoClient
 from bson import json_util, ObjectId
+from flask_cors import CORS
 
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
@@ -14,6 +15,8 @@ DB_NAME =  os.environ.get("DB_NAME")
 client = MongoClient(MONGODB_URI)
 db = client[DB_NAME]
 app = Flask(__name__)
+# cors = CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)
 
 def parse_json(data):
     data = json.loads(json_util.dumps(data))
@@ -25,8 +28,8 @@ def home():
 
 @app.route("/homework", methods=["POST"])
 def homework_post():
-    nickname = request.form['nickname']
-    comment = request.form['comment']
+    nickname = request.json['nickname']
+    comment = request.json['comment']
     doc = {
         'nickname': nickname,
         'comment': comment
@@ -39,10 +42,10 @@ def homework_get():
     list_fb = list(db.fanbook.find())
     return parse_json(list_fb)
 
-@app.route("/homework/update", methods=["POST"])
+@app.route("/homework/update", methods=["PUT"])
 def homework_update():
-    id = request.form['id']
-    comment = request.form['comment']
+    id = request.json['id']
+    comment = request.json['comment']
 
     doc = { 'comment': comment }
     db.fanbook.update_one({'_id': ObjectId(id)}, {
@@ -50,9 +53,9 @@ def homework_update():
     })
     return jsonify({'msg':'Comment updated!'})
 
-@app.route("/homework/delete", methods=["POST"])
+@app.route("/homework/delete", methods=["DELETE"])
 def homework_delete():
-    id = request.form['id']
+    id = request.json['id']
 
     db.fanbook.delete_one({'_id': ObjectId(id)})
     return jsonify({'msg':'Comment deleted!'})

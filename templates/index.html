@@ -89,7 +89,10 @@
                 type: "GET",
                 url: "http://spartacodingclub.shop/sparta_api/weather/seoul",
                 data: {},
-                success: (response) => $('#temp').text(response['temp'])
+                success: (response) => {
+                    console.log(response)
+                    $('#temp').text(response['temp'])
+                }
             })
         }
         function save_comment() {
