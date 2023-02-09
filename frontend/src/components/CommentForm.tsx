@@ -1,5 +1,6 @@
 import CommentCard from './CommentCard'
 import React from 'react'
+import axios from 'axios'
 
 interface Input {
     nickname: string,
@@ -64,6 +65,7 @@ export function CommentSection() {
     const [comments, setComments] = React.useState([{
         nickname: '',
         comment: '',
+        createdAt: '',
         _id: { $oid: '' }
     }])
 
@@ -75,10 +77,13 @@ export function CommentSection() {
 
     const getListComment = async () => {
         try {
-            const response = await fetch('http://127.0.0.1:5000/homework', { method: 'GET' })
-            const comment: Comment[] = await response.json()
 
-            setComments(comment)
+            const resp = await axios({
+                method: 'GET',
+                url: 'http://localhost:5000/homework',
+            })
+
+            setComments(resp.data)
         } catch (error) {
             console.log(error)
         }
@@ -90,7 +95,8 @@ export function CommentSection() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 nickname: input.nickname,
-                comment: input.comment
+                comment: input.comment,
+                createdAt: new Date().toString()
             })
         })
         const msg: { msg: string } = await response.json()

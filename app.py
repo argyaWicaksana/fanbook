@@ -29,9 +29,11 @@ def home():
 def homework_post():
     nickname = request.json['nickname']
     comment = request.json['comment']
+    createdAt = request.json['createdAt']
     doc = {
         'nickname': nickname,
-        'comment': comment
+        'comment': comment,
+        'createdAt': createdAt
     }
     db.fanbook.insert_one(doc)
     return jsonify({'msg':'Comment Saved!'})
