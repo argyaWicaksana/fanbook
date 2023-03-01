@@ -1,7 +1,7 @@
 import os, json
 from os.path import join, dirname
 from dotenv import load_dotenv
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, request, jsonify
 from pymongo import MongoClient
 from bson import json_util, ObjectId
 from flask_cors import CORS
@@ -21,11 +21,7 @@ def parse_json(data):
     data = json.loads(json_util.dumps(data))
     return data
 
-@app.route('/')
-def home():
-    return render_template('index.html')
-
-@app.route("/homework", methods=["POST"])
+@app.route("/", methods=["POST"])
 def homework_post():
     nickname = request.json['nickname']
     comment = request.json['comment']
@@ -38,12 +34,12 @@ def homework_post():
     db.fanbook.insert_one(doc)
     return jsonify({'msg':'Comment Saved!'})
 
-@app.route("/homework", methods=["GET"])
+@app.route("/", methods=["GET"])
 def homework_get():
     list_fb = list(db.fanbook.find())
     return parse_json(list_fb)
 
-@app.route("/homework/update", methods=["PUT"])
+@app.route("/", methods=["PUT"])
 def homework_update():
     id = request.json['id']
     comment = request.json['comment']
@@ -54,7 +50,7 @@ def homework_update():
     })
     return jsonify({'msg':'Comment updated!'})
 
-@app.route("/homework/delete", methods=["DELETE"])
+@app.route("/", methods=["DELETE"])
 def homework_delete():
     id = request.json['id']
 
