@@ -80,7 +80,7 @@ export function CommentSection() {
 
             const resp = await axios({
                 method: 'GET',
-                url: 'http://localhost:5000/homework',
+                url: 'http://localhost:5000/',
             })
 
             setComments(resp.data)
@@ -90,7 +90,7 @@ export function CommentSection() {
     }
 
     async function postComment(input: Input) {
-        const response = await fetch('http://127.0.0.1:5000/homework', {
+        const response = await fetch('http://127.0.0.1:5000/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -106,7 +106,7 @@ export function CommentSection() {
     }
 
     async function deleteComment(input: string) {
-        const response = await fetch('http://127.0.0.1:5000/homework/delete', {
+        const response = await fetch('http://127.0.0.1:5000/', {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -120,7 +120,7 @@ export function CommentSection() {
     }
 
     async function updateComment(input: { id: string, comment: string }) {
-        const response = await fetch('http://127.0.0.1:5000/homework/update', {
+        const response = await fetch('http://127.0.0.1:5000/', {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
